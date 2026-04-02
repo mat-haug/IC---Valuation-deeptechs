@@ -63,8 +63,7 @@ for i, cf in enumerate(fluxos_de_caixa, start=1):
     valor_presente_fluxos += vp_cf
     
     # Mostra a memória de cálculo na tela para o usuário entender
-    st.write(f"**Ano {i}:** R$ {cf:,.2f} descontado a {taxa_desconto_perc}% = **R$ {vp_cf:,.2f}**")
-
+    st.write(f"**Ano {i}:** R\$ {cf:,.2f} descontado a {taxa_desconto_perc}% = **R\$ {vp_cf:,.2f}**")
 # Cálculo do Valor Presente do Terminal Value
 vp_tv = terminal_value / ((1 + taxa_desconto) ** num_anos)
 
