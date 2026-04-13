@@ -50,7 +50,6 @@ terminal_value = st.sidebar.number_input(
     help="O valor estimado da empresa do último ano projetado em diante."
 )
 
-# --- 3. ÁREA PRINCIPAL (Cálculos e Motor Matemático) ---
 st.header("Cálculo do Valor Presente")
 
 valor_presente_fluxos = 0
@@ -65,9 +64,9 @@ for i, cf in enumerate(fluxos_de_caixa, start=1):
     # Mostra a memória de cálculo na tela para o usuário entender
     st.write(f"**Ano {i}:** R\$ {cf:,.2f} descontado a {taxa_desconto_perc}% = **R\$ {vp_cf:,.2f}**")
 # Cálculo do Valor Presente do Terminal Value
-vp_tv = terminal_value / ((1 + taxa_desconto) ** num_anos)
+vp_tv = terminal_value / ((1 + taxa_desconto) ** (num_anos + 1))
 
-# Cálculo do Enterprise Value (Que neste caso = Equity Value)
+# Cálculo do Enterprise Value 
 enterprise_value = valor_presente_fluxos + vp_tv
 
 st.divider()
@@ -75,7 +74,6 @@ st.divider()
 # --- 4. RESULTADOS FINAIS ---
 st.write("Resumo do Valuation")
 
-# Usando colunas para deixar os números grandes e bonitos
 col1, col2, col3 = st.columns(3)
 
 col1.metric("VP dos Fluxos", f"R$ {valor_presente_fluxos:,.2f}")
