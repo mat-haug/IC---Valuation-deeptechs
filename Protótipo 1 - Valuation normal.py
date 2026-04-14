@@ -3,12 +3,64 @@ import streamlit as st
 # --- CONFIGURAÇÃO GERAL ---
 st.set_page_config(page_title="Valuation Deep Techs", page_icon="🔬", layout="wide")
 
+# --- CUSTOMIZAÇÃO DE CORES E LOGO (CSS INJECT) ---
+st.markdown(
+    """
+    <style>
+    /* Fundo da barra lateral mais suave */
+    [data-testid="stSidebar"] {
+        background-color: #f8f9fc;
+    }
+    
+    /* Cor dos títulos (Azul Escuro Institucional) */
+    h1, h2, h3, h4 {
+        color: #002244 !important;
+    }
+
+    /* Destacando os números principais das métricas com a cor do tema */
+    [data-testid="stMetricValue"] {
+        color: #002244;
+        font-weight: 800;
+    }
+
+    /* Estilizando as bordas dos cartões para um visual mais moderno (SaaS) */
+    div[data-testid="stVerticalBlock"] > div[style*="border"] {
+        border-radius: 12px !important;
+        border-color: #e0e4e8 !important;
+        box-shadow: 2px 4px 12px rgba(0,0,0,0.04);
+    }
+
+    /* Fixando o logo da USP no canto inferior direito */
+    .logo-fixo {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 110px;  /* Tamanho do logo */
+        z-index: 9999; /* Garante que fique por cima de tudo na tela */
+        opacity: 0.8;  /* Leve transparência para não atrapalhar a leitura */
+        transition: 0.3s ease-in-out;
+    }
+    
+    /* Efeito ao passar o mouse no logo */
+    .logo-fixo:hover {
+        opacity: 1.0;
+        transform: scale(1.05);
+    }
+    </style>
+
+    <a href="https://www.usp.br" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Universidade_de_S%C3%A3o_Paulo_bras%C3%A3o.png/320px-Universidade_de_S%C3%A3o_Paulo_bras%C3%A3o.png" class="logo-fixo" alt="Logo USP">
+    </a>
+    """,
+    unsafe_allow_html=True
+)
+
 # --- NAVEGAÇÃO (BARRA LATERAL) ---
 st.sidebar.markdown("### 🧭 Menu Principal")
 pagina = st.sidebar.radio(
     "Selecione o Cenário:",
     ["🔬 Licenciamento", "⚡ Energia", "🌱 Agronegócio"],
-    label_visibility="collapsed" # Esconde o título do radio para ficar com cara de menu nativo
+    label_visibility="collapsed" 
 )
 
 st.sidebar.divider()
@@ -29,24 +81,21 @@ if pagina == "🔬 Licenciamento":
         taxa_desconto_perc = st.sidebar.number_input("Custo de Capital Global (%)", min_value=0.0, max_value=200.0, value=40.0, step=1.0)
         taxa_desconto_global = taxa_desconto_perc / 100
     else:
-        taxa_desconto_global = 0.0 # Será definido ano a ano
+        taxa_desconto_global = 0.0 
 
     num_anos = st.sidebar.number_input("Horizonte Projetado (Anos)", min_value=1, max_value=15, value=5, step=1)
 
     # --- ENTRADA DE DADOS (ÁREA PRINCIPAL) ---
     st.subheader("📊 Projeção de Fluxos de Caixa")
     
-    # Cartão com borda para organizar a entrada de dados
     with st.container(border=True):
         fluxos_de_caixa = []
         taxas_desconto = []
         probabilidades = []
         
-        # Cria um layout de Grid (3 colunas por linha) para ficar organizado
         colunas_grid = st.columns(3)
         
         for i in range(int(num_anos)):
-            # O "i % 3" garante que os anos vão preenchendo as colunas de 3 em 3
             with colunas_grid[i % 3]:
                 st.markdown(f"**Ano {i+1}**")
                 cf = st.number_input(f"Fluxo de Caixa (R$)", value=-100000.0, step=50000.0, key=f"cf_{i+1}")
@@ -64,9 +113,8 @@ if pagina == "🔬 Licenciamento":
                 else:
                     probabilidades.append(1.0)
                 
-                st.write("") # Espaço extra entre as linhas do grid
+                st.write("") 
 
-    # Cartão exclusivo para o Terminal Value
     with st.container(border=True):
         st.markdown("**📈 Valor Terminal (Perpetuidade)**")
         col_tv1, col_tv2, col_tv3 = st.columns(3)
@@ -78,7 +126,6 @@ if pagina == "🔬 Licenciamento":
                 taxa_tv = st.number_input("COC do TV (%)", value=40.0, step=1.0) / 100
             else:
                 taxa_tv = taxa_desconto_global
-                # St.metric fica com cara de Dashboard informando um valor que ele herdou
                 st.metric("COC do TV", f"{taxa_tv*100:.0f}%", help="Herdado da premissa global") 
         with col_tv3:
             if tipo_valuation == "rNPV (Ajustado ao Risco)":
@@ -114,7 +161,6 @@ if pagina == "🔬 Licenciamento":
             texto_prob = f" (Prob: {prob*100:.0f}%)" if tipo_valuation == "rNPV (Ajustado ao Risco)" else ""
             st.write(f"**Ano {ano}:** R\$ {cf_esperado:,.2f}{texto_prob} descontado a {taxa*100:.1f}% = **R\$ {vp_cf:,.2f}**")
         
-        # TV
         tv_esperado = terminal_value * prob_tv
         fator_tv = (1 + taxa_tv) ** num_anos
         vp_tv = tv_esperado / fator_tv
@@ -123,7 +169,7 @@ if pagina == "🔬 Licenciamento":
         st.divider()
         st.write(f"**Perpetuidade:** R\$ {tv_esperado:,.2f}{texto_prob_tv} descontado a {taxa_tv*100:.1f}% = **R\$ {vp_tv:,.2f}**")
 
-    # --- RESULTADOS FINAIS (Dashboard Style) ---
+    # --- RESULTADOS FINAIS ---
     enterprise_value = valor_presente_fluxos + vp_tv
     
     st.subheader("🎯 Resumo do Valuation")
@@ -136,7 +182,7 @@ if pagina == "🔬 Licenciamento":
         with st.container(border=True):
             st.metric(f"VP do Terminal Value", f"R$ {vp_tv:,.2f}")
     with col_res3:
-        with st.container(border=True): # Dá um destaque no resultado final
+        with st.container(border=True): 
             st.metric("Enterprise Value (Valuation)", f"R$ {enterprise_value:,.2f}")
 
 
