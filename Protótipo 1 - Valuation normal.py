@@ -3,64 +3,55 @@ import streamlit as st
 # --- CONFIGURAÇÃO GERAL ---
 st.set_page_config(page_title="Valuation Deep Techs", page_icon="🔬", layout="wide")
 
-# --- CUSTOMIZAÇÃO DE CORES E LOGO (CSS INJECT) ---
-st.markdown(
-    """
+# --- CUSTOM CSS (O TRUQUE DE DESIGN) ---
+st.markdown("""
     <style>
-    /* Fundo da barra lateral mais suave */
-    [data-testid="stSidebar"] {
-        background-color: #f8f9fc;
-    }
-    
-    /* Cor dos títulos (Azul Escuro Institucional) */
-    h1, h2, h3, h4 {
-        color: #002244 !important;
-    }
-
-    /* Destacando os números principais das métricas com a cor do tema */
-    [data-testid="stMetricValue"] {
-        color: #002244;
-        font-weight: 800;
-    }
-
-    /* Estilizando as bordas dos cartões para um visual mais moderno (SaaS) */
-    div[data-testid="stVerticalBlock"] > div[style*="border"] {
-        border-radius: 12px !important;
-        border-color: #e0e4e8 !important;
-        box-shadow: 2px 4px 12px rgba(0,0,0,0.04);
-    }
-
-    /* Fixando o logo da USP no canto inferior direito */
-    .logo-fixo {
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        width: 110px;  /* Tamanho do logo */
-        z-index: 9999; /* Garante que fique por cima de tudo na tela */
-        opacity: 0.8;  /* Leve transparência para não atrapalhar a leitura */
-        transition: 0.3s ease-in-out;
-    }
-    
-    /* Efeito ao passar o mouse no logo */
-    .logo-fixo:hover {
-        opacity: 1.0;
-        transform: scale(1.05);
-    }
+        /* Fundo principal do site mais suave (Cinza claro corporativo) */
+        .stApp {
+            background-color: #F4F6F9;
+        }
+        /* Cor e peso dos títulos principais */
+        h1 {
+            color: #1E3A8A !important; /* Azul escuro tech */
+            font-weight: 800 !important;
+        }
+        h2, h3 {
+            color: #334155 !important; /* Cinza chumbo */
+            font-weight: 700 !important;
+        }
+        /* Estilizando os Cartões (Containers com borda) */
+        [data-testid="stVerticalBlockBorderWrapper"] {
+            border-radius: 12px !important;
+            background-color: #FFFFFF !important;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.04) !important;
+            border: 1px solid #E2E8F0 !important;
+            padding: 1rem !important;
+        }
+        /* Estilizando os números de Resultado (Metrics) */
+        [data-testid="stMetricValue"] {
+            color: #047857 !important; /* Verde financeiro clássico */
+            font-size: 2.2rem !important;
+            font-weight: 800 !important;
+        }
+        [data-testid="stMetricLabel"] {
+            font-size: 1.1rem !important;
+            color: #64748B !important;
+            font-weight: 600 !important;
+        }
+        /* Barra lateral mais limpa */
+        [data-testid="stSidebar"] {
+            background-color: #FFFFFF !important;
+            border-right: 1px solid #E2E8F0 !important;
+        }
     </style>
-
-    <a href="https://www.usp.br" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Universidade_de_S%C3%A3o_Paulo_bras%C3%A3o.png/320px-Universidade_de_S%C3%A3o_Paulo_bras%C3%A3o.png" class="logo-fixo" alt="Logo USP">
-    </a>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
 # --- NAVEGAÇÃO (BARRA LATERAL) ---
 st.sidebar.markdown("### 🧭 Menu Principal")
 pagina = st.sidebar.radio(
     "Selecione o Cenário:",
     ["🔬 Licenciamento", "⚡ Energia", "🌱 Agronegócio"],
-    label_visibility="collapsed" 
+    label_visibility="collapsed"
 )
 
 st.sidebar.divider()
@@ -81,7 +72,7 @@ if pagina == "🔬 Licenciamento":
         taxa_desconto_perc = st.sidebar.number_input("Custo de Capital Global (%)", min_value=0.0, max_value=200.0, value=40.0, step=1.0)
         taxa_desconto_global = taxa_desconto_perc / 100
     else:
-        taxa_desconto_global = 0.0 
+        taxa_desconto_global = 0.0
 
     num_anos = st.sidebar.number_input("Horizonte Projetado (Anos)", min_value=1, max_value=15, value=5, step=1)
 
@@ -183,13 +174,15 @@ if pagina == "🔬 Licenciamento":
             st.metric(f"VP do Terminal Value", f"R$ {vp_tv:,.2f}")
     with col_res3:
         with st.container(border=True): 
-            st.metric("Enterprise Value (Valuation)", f"R$ {enterprise_value:,.2f}")
+            # Um st.success para dar um destaque visual maior ao resultado final
+            st.success("💰 Enterprise Value Final")
+            st.metric("", f"R$ {enterprise_value:,.2f}", label_visibility="collapsed")
 
 
 elif pagina == "⚡ Energia":
-    st.title("Valuation - Setor de Energia")
+    st.title("⚡ Valuation - Setor de Energia")
     st.info("Aba em desenvolvimento para infraestrutura e ativos de energia.")
 
 elif pagina == "🌱 Agronegócio":
-    st.title("Valuation - Setor de Agronegócio")
+    st.title("🌱 Valuation - Setor de Agronegócio")
     st.info("Aba em desenvolvimento para Biotechs e Agtechs.")
