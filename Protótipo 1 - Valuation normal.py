@@ -153,9 +153,6 @@ import streamlit as st
 # --- CONFIGURAÇÃO GERAL ---
 st.set_page_config(page_title="Valuation Deep Techs", page_icon="🔬", layout="wide")
 
-# --- CONFIGURAÇÃO GERAL ---
-st.set_page_config(page_title="Valuation Deep Techs", page_icon="🔬", layout="wide")
-
 # --- CUSTOM CSS (Estética Dark Tech / Profissional) ---
 st.markdown("""
     <style>
@@ -345,8 +342,7 @@ if pagina == "🔬 Licenciamento":
                 st.metric(f"VP do Terminal Value", f"R$ {vp_tv:,.2f}")
         with col_res3:
             with st.container(border=True): 
-                st.success("💰 Enterprise Value (Valuation)")
-                st.metric("", f"R$ {enterprise_value:,.2f}", label_visibility="collapsed")
+                st.metric("💰 Enterprise Value (Valuation)", f"R$ {enterprise_value:,.2f}")
 
     # =========================================================================
     # LÓGICA 2: VC METHOD (Focado na saída e diluição, dispensa fluxo contínuo)
@@ -408,8 +404,7 @@ if pagina == "🔬 Licenciamento":
                 st.metric(f"Post-Money Valuation", f"R$ {post_money:,.2f}")
         with col_res3:
             with st.container(border=True): 
-                st.success("🤝 Participação a Ceder")
-                st.metric("", f"{participacao_exigida*100:.2f}%", label_visibility="collapsed")
+                st.metric("🤝 Participação a Ceder", f"{participacao_exigida*100:.2f}%")
 
 
 elif pagina == "⚡ Energia":
