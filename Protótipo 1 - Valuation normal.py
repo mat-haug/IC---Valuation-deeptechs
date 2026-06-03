@@ -153,32 +153,48 @@ import streamlit as st
 # --- CONFIGURAÇÃO GERAL ---
 st.set_page_config(page_title="Valuation Deep Techs", page_icon="🔬", layout="wide")
 
-# --- CUSTOM CSS (Estética Corporativa) ---
+# --- CONFIGURAÇÃO GERAL ---
+st.set_page_config(page_title="Valuation Deep Techs", page_icon="🔬", layout="wide")
+
+# --- CUSTOM CSS (Estética Dark Tech / Profissional) ---
 st.markdown("""
     <style>
-        .stApp { background-color: #F4F6F9; }
-        h1 { color: #1E3A8A !important; font-weight: 800 !important; }
-        h2, h3 { color: #334155 !important; font-weight: 700 !important; }
+        /* Fundo principal escuro (Preto/Cinza profundo) */
+        .stApp { background-color: #0E1117; }
+        
+        /* Títulos principais em Azul Tech elegante */
+        h1 { color: #00D2FF !important; font-weight: 800 !important; }
+        
+        /* Subtítulos em cinza claro/branco para leitura fácil */
+        h2, h3 { color: #E2E8F0 !important; font-weight: 700 !important; }
+        
+        /* Cartões flutuantes com fundo escuro e uma borda tech muito sutil */
         [data-testid="stVerticalBlockBorderWrapper"] {
             border-radius: 12px !important;
-            background-color: #FFFFFF !important;
-            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.04) !important;
-            border: 1px solid #E2E8F0 !important;
+            background-color: #161B22 !important;
+            box-shadow: 0px 4px 20px rgba(0, 210, 255, 0.05) !important; /* Um leve glow azul */
+            border: 1px solid #30363D !important;
             padding: 1rem !important;
         }
+        
+        /* Números de resultado em Verde Matrix/Finanças */
         [data-testid="stMetricValue"] {
-            color: #047857 !important;
+            color: #39D353 !important;
             font-size: 2.2rem !important;
             font-weight: 800 !important;
         }
+        
+        /* Textos descritivos dos resultados */
         [data-testid="stMetricLabel"] {
             font-size: 1.1rem !important;
-            color: #64748B !important;
+            color: #8B949E !important;
             font-weight: 600 !important;
         }
+        
+        /* Barra lateral num tom de preto ainda mais fechado para contraste */
         [data-testid="stSidebar"] {
-            background-color: #FFFFFF !important;
-            border-right: 1px solid #E2E8F0 !important;
+            background-color: #010409 !important;
+            border-right: 1px solid #21262D !important;
         }
     </style>
 """, unsafe_allow_html=True)
