@@ -373,13 +373,13 @@ if pagina == "🔬 Licenciamento":
         with st.container(border=True):
             st.markdown(f"""
             1. **Post-Money Valuation:** Trazendo o Terminal Value de **R$ {terminal_value:,.2f}** a valor presente usando o ROI Alvo de **{roi_alvo*100:.1f}%** ao longo de **{int(num_anos)} anos**.
-               * $Post\text{-}Money = \\frac{{TV}}{{(1 + ROI)^n}}$ = **R$ {post_money:,.2f}**
+               * $Post\\text{{-}}Money = \\frac{{TV}}{{(1 + ROI)^n}}$ = **R$ {post_money:,.2f}**
                
             2. **Pre-Money Valuation:** Subtraindo o investimento da rodada atual de **R$ {investimento:,.2f}**.
                * $Pre\\text{{-}}Money = Post\\text{{-}}Money - Investimento$ = **R$ {pre_money:,.2f}**
                
             3. **Participação Exigida Hoje (Required Current Ownership):** Ajustando a meta de **{target_ownership*100:.1f}%** pela diluição futura.
-               * $Ownership = \\frac{{Target\ Ownership}}{{Retention\ Rate}}$ = **{participacao_exigida*100:.2f}%**
+               * $Ownership = \\frac{{Target\\ Ownership}}{{Retention\\ Rate}}$ = **{participacao_exigida*100:.2f}%**
             """)
 
         st.subheader("🎯 Resumo do Valuation (Capital de Risco)")
